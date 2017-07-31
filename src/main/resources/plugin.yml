@@ -1,0 +1,4 @@
+name: GunGame
+version: 1.0-SNAPSHOT
+main: de.pascalku.gungame.GunGame
+authors: [PascalKu]
