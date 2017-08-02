@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.internal.LinkedTreeMap;
 import de.eintestnetzwerk.einemapapi.EineMapAPI;
 import de.eintestnetzwerk.einemapapi.objects.Map;
+import de.pascalku.gungame.data.GunHash;
 import de.pascalku.gungame.spawn.CircleSpawn;
 import de.pascalku.gungame.spawn.SpawnExtension;
 import de.pascalku.gungame.storage.scoreboard.GunScoreBoard;
@@ -62,4 +63,10 @@ public class GunGameCache {
         setLocation(EineMapAPI.getLocation((LinkedTreeMap) inputMap.getObjectMap().get("spawn_location")));
         System.out.println("NOW: " + getLocation().getX() + "  - " + getLocation().getY() + " - " + getLocation().getZ());
     }
+
+    @Getter @Setter
+    private static GunHash defaultGunHash = null;
+
+    @Getter
+    private static HashMap<Integer, GunHash> itemSetHashMap = Maps.newHashMap();
 }

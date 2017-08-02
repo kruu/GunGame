@@ -1,10 +1,14 @@
 package de.pascalku.gungame;
 
+import com.google.common.collect.Maps;
 import de.eintestnetzwerk.einemapapi.EineMapAPI;
 import de.pascalku.gungame.cache.GunGameCache;
+import de.pascalku.gungame.data.GunHash;
 import de.pascalku.gungame.listeners.*;
 import de.pascalku.gungame.runnables.MapChangeRunnable;
 import lombok.Getter;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -54,6 +58,8 @@ public class GunGame extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        addTestStacks();
+
         getServer().getPluginManager().registerEvents(new CanvasListener(), this);
 
         getServer().getPluginManager().registerEvents(new PlayerBlockListener(), this);
@@ -79,5 +85,18 @@ public class GunGame extends JavaPlugin {
     @Override
     public void onDisable() {
 
+    }
+
+    public static void addTestStacks() {
+        GunHash defaultGunHash = new GunHash(null, null, null, null, false, Maps.newHashMap());
+        defaultGunHash.getInventoryStack().put(0, new ItemStack(Material.WOOD_AXE));
+
+        GunGameCache.setDefaultGunHash(defaultGunHash);
+
+        for(int index = 2; index < 5; index += 1) {
+            GunHash testHash = new GunHash(null, null, null, null, false, Maps.newHashMap());
+            testHash.getInventoryStack().put(0, new ItemStack(Material.STONE_SWORD));
+            GunGameCache.getItemSetHashMap().put(index, testHash);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package de.pascalku.gungame.listeners;
 
+import de.pascalku.gungame.events.GunInventoryUpdateEvent;
 import de.pascalku.gungame.events.PlayerLevelLostEvent;
 import de.pascalku.gungame.events.PlayerLevelUpEvent;
 import de.pascalku.gungame.cache.GunGameCache;
@@ -19,6 +20,12 @@ public class PlayerDeathListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player entity = event.getEntity();
+
+        event.setKeepInventory(true);
+        event.setKeepLevel(true);
+
+        event.getEntity().getInventory().setArmorContents(null);
+        event.getEntity().getInventory().clear();
 
         PlayerLevelLostEvent playerLevelLostEvent = new PlayerLevelLostEvent(entity);
         Bukkit.getServer().getPluginManager().callEvent(playerLevelLostEvent);
@@ -42,6 +49,12 @@ public class PlayerDeathListener implements Listener {
                 GunPlayerCache gunKillerCache = GunGameCache.getGunPlayerCacheHashMap().get(killer);
 
                 gunKillerCache.setKillStreak(gunKillerCache.getKillStreak() + 1);
+                gunKillerCache.setLevel(gunKillerCache.getLevel() + 1);
+                event.getEntity().getKiller().setLevel(gunKillerCache.getLevel());
+
+                GunInventoryUpdateEvent gunInventoryUpdateEvent
+                        = new GunInventoryUpdateEvent(event.getEntity().getKiller(), gunKillerCache.getLevel());
+                Bukkit.getPluginManager().callEvent(gunInventoryUpdateEvent);
 
                 if(gunKillerCache.getKillStreak() > gunKillerCache.getBestKillStreak()) {
                     gunKillerCache.setBestKillStreak(gunKillerCache.getKillStreak());

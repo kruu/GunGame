@@ -14,5 +14,5 @@ import lombok.Setter;
 @Setter
 public class GunPlayerCache {
 
-    private Integer killStreak, bestKillStreak;
+    private Integer level, killStreak, bestKillStreak;
 }
